@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Laddstationformulär – Mockup-formulär för öppna data om laddstationer</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+
+  <body>
+
+    <header class="border-bottom">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 py-3">
+            <h1>Laddstationformulär</h1>
+            <div>Mockup-formulär för öppna data om laddstationer</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container page">
+
+      <div class="row">
+
+        <div class="col-12 col-lg-6 form-container">
+
+          <fieldset class="border rounded-lg">
+            <legend>Basinfo</legend>
+
+            <div class="form-group row">
+              <label for="input-station-name" class="col-md-4 col-form-label">Laddstationsnamn</label>
+              <div class="col-md-8">
+                <input type="text" name="name" class="form-control" id="input-station-name" placeholder="T. ex. “Stationen på Elgatan”">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="input-owner" class="col-md-4 col-form-label">Ägare</label>
+              <div class="col-md-8">
+                <input type="text" name="owner" class="form-control" id="input-owner" placeholder="T. ex. “Elentusiasterna AB”">
+              </div>
+            </div>
+
+          </fieldset>
+
+          <fieldset class="border rounded-lg" data-key="place">
+            <legend>Plats</legend>
+
+            <div class="form-group row">
+              <label for="input-address" class="col-md-4 col-form-label">Adress &amp; postnr.</label>
+              <div class="col-8 col-md-5 pr-0">
+                <input type="text" name="address" class="form-control" id="input-address" placeholder="T. ex. “Elgatan 12 B”">
+              </div>
+              <div class="col-4 col-md-3">
+                <input type="text" name="postalCode" class="form-control" id="input-postal-address" placeholder="NNN NN">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="select-place-type" class="col-md-4 col-form-label">Typ</label>
+              <div class="col-md-8">
+                <select name="type" id="select-place-type" class="custom-select">
+                  <option value="">Välj...</option>
+                  <option>Gatuplan</option>
+                  <option>Parkeringshus</option>
+                  <option>Flygplats</option>
+                  <option>Köpcenter</option>
+                  <option>Hotell</option>
+                  <option>Restaurang</option>
+                  <option>Bensinstation</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="input-place-description" class="col-md-4 col-form-label">Beskrivning</label>
+              <div class="col-md-8">
+                <textarea name="description" class="form-control" id="input-place-description" rows="2" placeholder="T. ex. “I parkeringshuset under köpcentret”"></textarea>
+              </div>
+            </div>
+
+            <div data-key="gps">
+              <label class="mt-2">GPS, decimalgrader <span class="text-muted">(WGS84)</span></label>
+              <div class="form-group row mb-1">
+                <label for="input-gps-latitud" class="col-md-4 col-form-label">Latitud</label>
+                <div class="col-md-8">
+                  <input type="number" name="latitude" class="form-control" id="input-gps-latitud" placeholder="NN.NNNN…">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="input-gps-longitud" class="col-md-4 col-form-label">Longitud</label>
+                <div class="col-md-8">
+                  <input type="number" name="longitude" class="form-control" id="input-gps-longitud" placeholder="NN.NNNN…">
+                </div>
+              </div>
+            </div>
+
+          </fieldset>
+
+        </div>
+
+        <div class="col-12 col-lg-6 json-result">
+          <h4>JSON data</h4>
+          <pre class="border rounded-lg"><code class="language-json"></code></pre>
+        </div>
+
+      </div>
+
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+
+      const STORE_KEY = 'formJSON';
+      const formContainerEl = document.querySelector('.form-container');
+      let _changeTimeout;
+
+      /**
+       * recursiveGetObjectFromDOM
+       */
+      function recursiveGetObjectFromDOM(el) {
+        // Inputs with name
+        if (el.hasAttribute('name')) {
+          const val = el.value;
+          return val.length
+            ? { [el.getAttribute('name')]: (isNaN(Number(val)) ? val : Number(val)) }
+            : {};
+        }
+
+        if (el.children.length) {
+          // Collect obj from children
+          const childrenObj = Array.from(el.children)
+            .reduce(function(acc, childEl) {
+              return Object.assign(acc, recursiveGetObjectFromDOM(childEl));
+            }, {});
+          // If el has data-key, return childrenObj on this key
+          if (el.hasAttribute('data-key') && Object.keys(childrenObj).length) {
+            return { [el.getAttribute('data-key')]: childrenObj };
+          // Else return childrenObj
+          } else {
+            return childrenObj;
+          }
+
+        }
+
+        return {};
+      }
+      /**
+       * recursiveSetDOMFromObject
+       */
+      function recursiveSetDOMFromObject(el, obj = {}) {
+        // Inputs with name
+        const elName = el.getAttribute('name');
+        if (elName && obj.hasOwnProperty(elName)) {
+          el.value = obj[elName];
+        }
+        // If el has data-key, pass the value of this key to children
+        const dataKey = el.getAttribute('data-key');
+        if (el.children.length) {
+          return Array.from(el.children)
+            .forEach(function(childEl) {
+              recursiveSetDOMFromObject(childEl, (dataKey ? obj[dataKey] : obj));
+            });
+        }
+
+      }
+      /**
+       * handleFormUpdate
+       */
+      function handleFormUpdate() {
+        const data = recursiveGetObjectFromDOM(
+          formContainerEl
+        );
+        const jsonStr = JSON.stringify(data, null, 2);
+        // Set localStorage
+        window.localStorage.setItem(STORE_KEY, jsonStr);
+        // Populate JSON display and highlight code
+        const jsonEl = document.querySelector('.language-json')
+        jsonEl.innerHTML = jsonStr;
+        window.Prism.highlightElement(jsonEl);
+      }
+      /**
+       * onBeforeUnload
+       */
+      function onBeforeUnload(event) {
+        const data = recursiveGetObjectFromDOM(formContainerEl);
+        window.localStorage.setItem(STORE_KEY, JSON.stringify(data, null, 2));
+      }
+
+      // Init
+      if (window.localStorage.hasOwnProperty(STORE_KEY)) {
+        const jsonStr = window.localStorage.getItem(STORE_KEY);
+        // Populate form
+        if (jsonStr) {
+          recursiveSetDOMFromObject(
+            formContainerEl,
+            JSON.parse(jsonStr)
+          );
+        }
+        // Populate JSON display
+        document.querySelector('.language-json').innerHTML = jsonStr;
+      }
+      /**
+       * onFormChange
+       */
+      function onFormChange(event) {
+        clearTimeout(_changeTimeout);
+        _changeTimeout = setTimeout(function() {
+          handleFormUpdate();
+        }, 500);
+      }
+
+      // Add change listeners
+      formContainerEl.addEventListener('input', onFormChange);
+      formContainerEl.addEventListener('change', onFormChange);
+      // Add beforeunload listener
+      window.addEventListener('beforeunload', onBeforeUnload);
+
+
+    </script>
+
+    <script src="prism.js" type="text/javascript" charset="utf-8"></script>
+
+  </body>
+
+</html>
