@@ -27,6 +27,6 @@ Utdrag:
 
 ## 1. Laddstationformulär
 
-Under [/laddstationer](/swedev/odis/tree/master/laddstationer) finnes förslag på datastruktur i JSON-format, samt mockup-formulär för ifyllnad av data. (Work In Progress)
+Under [/laddstationer](/laddstationer) finnes förslag på datastruktur i JSON-format, samt mockup-formulär för ifyllnad av data. (Work In Progress)
 
 Gränssnittet för ifyllande av data är A & O om datan ska bli så korrekt och användbar som möjligt. Så för detta ändamål är ett webbformulär mycket bättre lämpat än ett spreadsheet.
