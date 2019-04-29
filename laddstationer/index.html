@@ -48,9 +48,16 @@
               </div>
             </div>
 
+            <div class="form-group row">
+              <label for="input-email" class="col-md-4 col-form-label">E-mailkontakt</label>
+              <div class="col-md-8">
+                <input type="text" name="email" class="form-control" id="input-email" placeholder="T. ex. “info@elentusiasterna.se”">
+              </div>
+            </div>
+
           </fieldset>
 
-          <fieldset class="border rounded-lg" data-key="place">
+          <fieldset class="border rounded-lg" data-key="location">
             <legend>Plats</legend>
 
             <div class="form-group row">
@@ -64,10 +71,10 @@
             </div>
 
             <div class="form-group row">
-              <label for="select-place-type" class="col-md-4 col-form-label">Typ</label>
+              <label for="select-location-type" class="col-md-4 col-form-label">Typ</label>
               <div class="col-md-8">
-                <select name="type" id="select-place-type" class="custom-select">
-                  <option value="">Välj...</option>
+                <select name="type" id="select-location-type" class="custom-select">
+                  <option value="">Välj…</option>
                   <option>Gatuplan</option>
                   <option>Parkeringshus</option>
                   <option>Flygplats</option>
@@ -80,9 +87,21 @@
             </div>
 
             <div class="form-group row">
-              <label for="input-place-description" class="col-md-4 col-form-label">Beskrivning</label>
+              <label for="select-availability" class="col-md-4 col-form-label">Tillgänglighet</label>
               <div class="col-md-8">
-                <textarea name="description" class="form-control" id="input-place-description" rows="2" placeholder="T. ex. “I parkeringshuset under köpcentret”"></textarea>
+                <select name="type" id="select-availability" class="custom-select">
+                  <option value="">Välj…</option>
+                  <option>Publik</option>
+                  <option>Endast besökare</option>
+                  <option>Privat</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="textarea-location-description" class="col-md-4 col-form-label">Beskrivning</label>
+              <div class="col-md-8">
+                <textarea name="description" class="form-control" id="textarea-location-description" rows="2" placeholder="T. ex. “I parkeringshuset under köpcentret”"></textarea>
               </div>
             </div>
 
@@ -99,6 +118,186 @@
                 <div class="col-md-8">
                   <input type="number" name="longitude" class="form-control" id="input-gps-longitud" placeholder="NN.NNNN…">
                 </div>
+              </div>
+            </div>
+
+          </fieldset>
+
+          <fieldset class="border rounded-lg">
+            <legend>Tider &amp; avgifter</legend>
+
+            <div class="form-group row" data-key="hoursOpen">
+              <label class="col-md-4 col-form-label">Öppettider</label>
+              <div class="col-md-8 row pr-0">
+                <div class="col-6 pr-1">
+                  <select name="from" class="custom-select">
+                    <option value="">Från…</option>
+                    <option value="0">00</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                  </select>
+                </div>
+                <div class="col-6 pl-1 pr-0">
+                  <select name="to" class="custom-select">
+                    <option value="">Till…</option>
+                    <option value="0">00</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                  </select>
+                </div>
+                <div class="col-12 pt-2 pr-0">
+                  <input type="text" name="description" class="form-control" placeholder="T. ex. “Helgfria vardagar”">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-4 col-form-label">Tidsbegränsning</label>
+              <div class="col-md-2 pr-0">
+                <select name="hasTimeLimit" class="custom-select">
+                  <option value="">Välj…</option>
+                  <option value="true">Ja</option>
+                  <option value="false">Nej</option>
+                </select>
+              </div>
+              <div class="col-md-6 pl-1">
+                <input type="text" name="timeLimitDescription" class="form-control" placeholder="T. ex. “max 3 tim”">
+              </div>
+            </div>
+
+            <div data-key="payment">
+
+              <div class="form-group row">
+                <label class="col-md-4 col-form-label">Laddningsavgift</label>
+                <div class="col-md-2 pr-0">
+                  <select name="hasChargingFee" class="custom-select">
+                    <option value="">Välj…</option>
+                    <option value="true">Ja</option>
+                    <option value="false">Nej</option>
+                  </select>
+                </div>
+                <div class="col-md-6 pl-1">
+                  <input type="text" name="chargingFeeDescription" class="form-control" placeholder="T. ex. “2kr/kWh”">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-md-4 col-form-label">Betalningsmetoder</label>
+                <div class="col-md-8 pt-1 checkboxes" data-list-key="methods">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="paymentCash" value="Kontant" id="check-payment-cash">
+                    <label class="form-check-label" for="check-payment-cash">Kontant</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="paymentCard" value="Kort" id="check-payment-card">
+                    <label class="form-check-label" for="check-payment-card">Kort</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="paymentSms" value="SMS" id="check-payment-sms">
+                    <label class="form-check-label" for="check-payment-sms">SMS</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="paymentApp" value="App" id="check-payment-app">
+                    <label class="form-check-label" for="check-payment-app">App</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="paymentRfid" value="RFID" id="check-payment-rfid">
+                    <label class="form-check-label" for="check-payment-rfid">RFID</label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group row">
+              <label class="col-md-4 col-form-label">Parkeringsavgift</label>
+              <div class="col-md-2 pr-0">
+                <select name="hasParkingFee" class="custom-select">
+                  <option value="">Välj…</option>
+                  <option value="true">Ja</option>
+                  <option value="false">Nej</option>
+                </select>
+              </div>
+              <div class="col-md-6 pl-1">
+                <input type="text" name="parkingDescription" class="form-control" placeholder="T. ex. “30kr/tim”">
+              </div>
+            </div>
+
+          </fieldset>
+
+
+          <fieldset class="border rounded-lg" data-key="other">
+            <legend>Övriga upplysningar</legend>
+
+            <div class="form-group row">
+              <label class="col-md-4 col-form-label">Realtidsinfo.</label>
+              <div class="col-md-2 pr-0">
+                <select name="hasRealTimeInfo" class="custom-select">
+                  <option value="">Välj…</option>
+                  <option value="true">Ja</option>
+                  <option value="false">Nej</option>
+                </select>
+              </div>
+              <div class="col-md-6 pl-1">
+                <input type="text" name="realTimeInfoDescription" class="form-control" placeholder="T. ex. “via Vattenfall InCharge”">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="input-subsidy" class="col-md-4 col-form-label">Utbyggnadsstöd</label>
+              <div class="col-md-8">
+                <input type="text" name="subsidy" class="form-control" id="input-subsidy" placeholder="T. ex. “Klimatklivet”">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="textarea-other-general" class="col-md-4 col-form-label">Övrigt</label>
+              <div class="col-md-8">
+                <textarea name="general" class="form-control" id="textarea-other-general" rows="3"></textarea>
               </div>
             </div>
 
@@ -127,29 +326,39 @@
       function recursiveGetObjectFromDOM(el) {
         // Inputs with name
         if (el.hasAttribute('name')) {
-          const val = el.value;
-          return val.length
-            ? { [el.getAttribute('name')]: (isNaN(Number(val)) ? val : Number(val)) }
-            : {};
+          return getReturnObject(el);
         }
+        // Object or list key
+        const objKey = el.getAttribute('data-key');
+        const listKey = el.getAttribute('data-list-key');
 
         if (el.children.length) {
-          // Collect obj from children
-          const childrenObj = Array.from(el.children)
-            .reduce(function(acc, childEl) {
-              return Object.assign(acc, recursiveGetObjectFromDOM(childEl));
-            }, {});
-          // If el has data-key, return childrenObj on this key
-          if (el.hasAttribute('data-key') && Object.keys(childrenObj).length) {
-            return { [el.getAttribute('data-key')]: childrenObj };
-          // Else return childrenObj
-          } else {
-            return childrenObj;
+          // Children objs
+          const childrenObjs = Array.from(el.children)
+            .map(function(childEl) { return recursiveGetObjectFromDOM(childEl); })
+            .filter(function(obj) { return !!obj; });
+          // If single child object, return
+          if (!(listKey || objKey) && childrenObjs.length === 1) {
+            return childrenObjs[0];
           }
-
+          // If el has data-list-key, return childrenObjs on this key
+          if (listKey) {
+            return { [listKey]: childrenObjs };
+          }
+          // Only return if childrenObjs, else undefined
+          if (childrenObjs.length) {
+            // Merge to single obj
+            const mergedChildrenObj = childrenObjs.reduce(function(acc, childObj) {
+              return Object.assign(acc, childObj);
+            }, {});
+            // If el has data-key, return merged childrenObjs object on this key
+            if (objKey) {
+              return { [objKey]: mergedChildrenObj};
+            }
+            // Else return mergedChildrenObj
+            return mergedChildrenObj;
+          }
         }
-
-        return {};
       }
       /**
        * recursiveSetDOMFromObject
@@ -157,11 +366,18 @@
       function recursiveSetDOMFromObject(el, obj = {}) {
         // Inputs with name
         const elName = el.getAttribute('name');
-        if (elName && obj.hasOwnProperty(elName)) {
-          el.value = obj[elName];
+        if (elName) {
+          // If obj is array and el is checkbox
+          if (Array.isArray(obj) && el.getAttribute('type') === 'checkbox') {
+            el.checked = obj.includes(el.value);
+          }
+          // Name present as key on obj
+          else if (obj.hasOwnProperty(elName)) {
+            el.value = obj[elName];
+          }
         }
-        // If el has data-key, pass the value of this key to children
-        const dataKey = el.getAttribute('data-key');
+        // If el has data-key or data-list-key, pass the value of this key to children
+        const dataKey = el.getAttribute('data-key') || el.getAttribute('data-list-key');
         if (el.children.length) {
           return Array.from(el.children)
             .forEach(function(childEl) {
@@ -171,12 +387,39 @@
 
       }
       /**
+       * getReturnObject
+       */
+      function getReturnObject(el) {
+        const key = el.getAttribute('name');
+        let value = el.value.length ? typeCast(el.value) : undefined;
+        // If no value
+        if (typeof value === 'undefined') {
+          return;
+        }
+        // If checkbox
+        if (el.getAttribute('type') === 'checkbox') {
+          return el.checked ? value : undefined;
+        }
+        return { [key]: value };
+      }
+      /**
+       * typeCast
+       */
+      function typeCast(value) {
+        if (!isNaN(Number(value))) {
+          return Number(value);
+        }
+        if (value === 'true' || value === 'false') {
+          return value === 'true';
+        }
+        return value;
+      }
+      /**
        * handleFormUpdate
        */
       function handleFormUpdate() {
-        const data = recursiveGetObjectFromDOM(
-          formContainerEl
-        );
+        const data = recursiveGetObjectFromDOM(formContainerEl);
+        console.log('data', data);
         const jsonStr = JSON.stringify(data, null, 2);
         // Set localStorage
         window.localStorage.setItem(STORE_KEY, jsonStr);
