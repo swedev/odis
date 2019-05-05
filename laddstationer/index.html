@@ -375,6 +375,9 @@
 
           </fieldset>
 
+          <div class="pb-3">
+            <button type="button" class="btn btn-warning btn-sm btn-clear-form">Rensa formulär</button>
+          </div>
         </div>
 
         <div class="col-12 col-lg-6 json-result">
@@ -456,7 +459,8 @@
         // Pad children with list items
         if (dataListKey && listItemEl) {
           let clonedListItemNode;
-          for (let i = 0, il = obj[dataListKey].length; i < il - 1; i++) {
+          const numItems = obj[dataListKey] ? obj[dataListKey].length : 0;
+          for (let i = 0; i < numItems - 1; i++) {
             clonedListItemNode = listItemEl.cloneNode(true);
             listItemEl.parentElement.append(clonedListItemNode);
           }
@@ -564,6 +568,14 @@
           });
         listEl.append( clonedListItemEl.cloneNode(true) );
       }
+      /**
+       * onClearClick
+       */
+      function onClearClick(event) {
+        window.localStorage.removeItem(STORE_KEY);
+        window.removeEventListener('beforeunload', onBeforeUnload);
+        window.location = window.location;
+      }
 
       // Add change listeners
       formContainerEl.addEventListener('input', onFormChange);
@@ -574,6 +586,9 @@
       formContainerEl
         .querySelector('.btn-add-row')
         .addEventListener('click', onAddRowClick);
+      formContainerEl
+        .querySelector('.btn-clear-form')
+        .addEventListener('click', onClearClick);
 
     </script>
 
