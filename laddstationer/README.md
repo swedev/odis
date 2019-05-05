@@ -12,6 +12,25 @@ Detta är Work In Progress.
   "name": "Min station",
   "owner": "Elentusiasterna AB",
   "email": "matte@elentusiasterna.se",
+  "created": "2018-10-27",
+  "modified": "2019-05-05",
+  "connectors": [
+    {
+      "level": 2,
+      "kiloWatt": 22,
+      "standard": "CHAdeMO"
+    },
+    {
+      "level": 3,
+      "kiloWatt": 50,
+      "standard": "Annan"
+    },
+    {
+      "level": 3,
+      "kiloWatt": 30,
+      "standard": "CCS"
+    }
+  ],
   "location": {
     "address": "Elgatan 12 B",
     "postalCode": "123 45",

@@ -49,13 +49,69 @@
             </div>
 
             <div class="form-group row">
-              <label for="input-email" class="col-md-4 col-form-label">E-mailkontakt</label>
+              <label for="input-email" class="col-md-4 col-form-label">Kontakt, e-mail</label>
               <div class="col-md-8">
                 <input type="text" name="email" class="form-control" id="input-email" placeholder="T. ex. “info@elentusiasterna.se”">
               </div>
             </div>
 
+            <div class="form-group row">
+              <label for="input-created" class="col-md-4 col-form-label">Skapad, datum</label>
+              <div class="col-md-8">
+                <input type="text" name="created" class="form-control" id="input-created" placeholder="ÅÅÅÅ-MM-DD">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="input-modified" class="col-md-4 col-form-label">Ändrad, datum</label>
+              <div class="col-md-8">
+                <input type="text" name="modified" class="form-control" id="input-modified" placeholder="ÅÅÅÅ-MM-DD">
+                <span class="form-text text-muted">(Lämna tomt om data inte uppdaterats)</span>
+              </div>
+            </div>
+
           </fieldset>
+
+
+          <fieldset class="border rounded-lg pt-0">
+            <legend>Laddpunkter</legend>
+
+            <div class="form-group row border-bottom">
+              <label class="col-3 col-form-label pr-0">Typ</label>
+              <label class="col-3 col-form-label pr-0 pl-1">Effekt, kW</label>
+              <label class="col-6 col-form-label pl-1">Standard</label>
+            </div>
+
+            <div class="connectors" data-list-key="connectors" data-list-item-selector=".connector">
+
+              <div class="form-group row connector">
+                <div class="col-3 pr-0">
+                  <select name="level" class="custom-select">
+                    <option value="">Välj…</option>
+                    <option value="1">Typ 1</option>
+                    <option value="2">Typ 2</option>
+                    <option value="3">Typ 3</option>
+                  </select>
+                </div>
+                <div class="col-3 pr-0 pl-1">
+                  <input type="number" name="kiloWatt" class="form-control" placeholder="T. ex. “22”">
+                </div>
+                <div class="col-6 pl-1">
+                  <select name="standard" class="custom-select">
+                    <option value="">Välj…</option>
+                    <option>CHAdeMO</option>
+                    <option>CCS</option>
+                    <option>Annan</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+            <button type="button" class="btn btn-info btn-sm btn-add-row">+ Lägg till rad</button>
+
+          </fieldset>
+
 
           <fieldset class="border rounded-lg" data-key="location">
             <legend>Plats</legend>
@@ -275,14 +331,14 @@
 
             <div class="form-group row">
               <label class="col-md-4 col-form-label">Realtidsinfo.</label>
-              <div class="col-md-2 pr-0">
+              <div class="col-3 col-md-2 pr-0">
                 <select name="hasRealTimeInfo" class="custom-select">
                   <option value="">Välj…</option>
                   <option value="true">Ja</option>
                   <option value="false">Nej</option>
                 </select>
               </div>
-              <div class="col-md-6 pl-1">
+              <div class="col-9 col-md-6 pl-1">
                 <input type="text" name="realTimeInfoDescription" class="form-control" placeholder="T. ex. “via Vattenfall InCharge”">
               </div>
             </div>
@@ -342,7 +398,7 @@
             return childrenObjs[0];
           }
           // If el has data-list-key, return childrenObjs on this key
-          if (listKey) {
+          if (listKey && childrenObjs.length) {
             return { [listKey]: childrenObjs };
           }
           // Only return if childrenObjs, else undefined
@@ -377,11 +433,30 @@
           }
         }
         // If el has data-key or data-list-key, pass the value of this key to children
-        const dataKey = el.getAttribute('data-key') || el.getAttribute('data-list-key');
+        const dataKey = el.getAttribute('data-key');
+        const dataListKey = el.getAttribute('data-list-key');
+        const listItemSelector = el.getAttribute('data-list-item-selector');
+        const listItemEl = el.querySelector(listItemSelector);
+        // Pad children with list items
+        if (dataListKey && listItemEl) {
+          let clonedListItemNode;
+          for (let i = 0, il = obj[dataListKey].length; i < il - 1; i++) {
+            clonedListItemNode = listItemEl.cloneNode(true);
+            listItemEl.parentElement.append(clonedListItemNode);
+          }
+        }
         if (el.children.length) {
           return Array.from(el.children)
-            .forEach(function(childEl) {
-              recursiveSetDOMFromObject(childEl, (dataKey ? obj[dataKey] : obj));
+            .forEach(function(childEl, i) {
+              recursiveSetDOMFromObject(
+                childEl,
+                dataKey
+                  ? obj[dataKey]
+                  : (dataListKey
+                    ? (obj[dataListKey] && listItemEl ? obj[dataListKey][i] : obj[dataListKey])
+                    : obj
+                  )
+              );
             });
         }
 
@@ -458,13 +533,31 @@
           handleFormUpdate();
         }, 500);
       }
+      /**
+       * onAddRowClick
+       */
+      function onAddRowClick(event) {
+        const parentEl = event.target.parentElement;
+        const listEl = parentEl.querySelector('[data-list-key]');
+        const listItemSelector = listEl.getAttribute('data-list-item-selector');
+        const clonedListItemEl = listEl.querySelector(listItemSelector).cloneNode(true);
+        clonedListItemEl
+          .querySelectorAll('[name]')
+          .forEach(function(el) {
+            el.value = undefined;
+          });
+        listEl.append( clonedListItemEl.cloneNode(true) );
+      }
 
       // Add change listeners
       formContainerEl.addEventListener('input', onFormChange);
       formContainerEl.addEventListener('change', onFormChange);
       // Add beforeunload listener
       window.addEventListener('beforeunload', onBeforeUnload);
-
+      // On click btn handlers
+      formContainerEl
+        .querySelector('.btn-add-row')
+        .addEventListener('click', onAddRowClick);
 
     </script>
 
