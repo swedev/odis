@@ -56,6 +56,22 @@
             </div>
 
             <div class="form-group row">
+              <label class="col-md-4 col-form-label">Status</label>
+              <div class="col-md-8">
+                <select name="status" class="custom-select">
+                  <option value="">Välj…</option>
+                  <option value="working">Fungerande</option>
+                  <option value="withIncidence">Med uppehåll</option>
+                  <option value="outOfService">Ur funktion</option>
+                  <option value="full">Full</option>
+                  <option value="almostFull">Nästan full</option>
+                  <option value="almostEmpty">Nästan tom</option>
+                  <option value="empty">Tom</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
               <label for="input-created" class="col-md-4 col-form-label">Skapad, datum</label>
               <div class="col-md-8">
                 <input type="text" name="created" class="form-control" id="input-created" placeholder="ÅÅÅÅ-MM-DD">

@@ -12,6 +12,7 @@ Detta är Work In Progress.
   "name": "Min station",
   "owner": "Elentusiasterna AB",
   "email": "matte@elentusiasterna.se",
+  "status": "working",
   "created": "2018-10-27",
   "modified": "2019-05-05",
   "connectors": [
