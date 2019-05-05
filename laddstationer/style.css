@@ -24,6 +24,15 @@ fieldset > legend {
   padding-bottom: 5vw;
 }
 
+.checkboxes {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+.checkboxes .form-check {
+  flex: 0 0 auto;
+  padding: 0.25em 1em 0.25em 1.25rem;
+}
+
 .json-result h4 {
   margin-top: 10px;
 }
